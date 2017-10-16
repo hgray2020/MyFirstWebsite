@@ -1,0 +1,518 @@
+<p>
+float size = 0.9;
+boolean quad = false;
+boolean four = false;
+int num = 2;
+boolean pair = true;
+boolean doub = false;
+
+Boat b = new Boat();
+
+float rate = 18;
+int buoyY;
+boolean up;
+float ty = 0;
+
+
+void setup() {
+  size(800, 800);
+}
+
+void draw() {
+  background(0, 128, 240);
+  fill(255, 51, 51);
+  ellipse(200, buoyY, 30, 30);
+  ellipse(600, buoyY, 30, 30);
+  pushMatrix();
+  translate(400, 400);
+  b.act();
+  popMatrix();
+  fill(255);
+  text(mouseX, 20, 20);
+  text(mouseY, 20, 40);
+  text(rate, 20, 60);
+
+  if (up) {
+    rate+=8;
+    up = false;
+  }
+  //ty-=rate/100;
+
+
+
+  buoyY+=rate/3;
+  if (buoyY > 815) {
+    buoyY = -15;
+  }
+}
+
+class Oar {
+
+  float x, y;
+  boolean square = false;
+  float r = radians(25);//
+  boolean drive = false;
+  boolean port;
+  boolean sweep;
+
+  Oar(float ex, float why, boolean p, boolean s) {
+    x = ex;
+    y = why;
+    port = p;
+    sweep = s;
+    /*if (port) {
+     x = ex+((1-size)*200); 
+     y = 450-((450-why)*(size));
+     println((1.0-size));
+     } else {
+     x = ex-((1-size)*200);
+     y = 400+((400-why)*(size));
+     }*/
+
+
+
+    if (port) {
+      r = 0.6;
+    } else {
+      r = -0.6;
+    }
+  }
+
+  void display() {
+    pushMatrix();
+    translate(x-400, y-400);
+    if (sweep) {
+      scale(size, size);
+    } else {
+      scale(size-0.2, size-0.2);
+    }
+    rotate(r);
+    rectMode(CENTER);
+    fill(0);
+    if (port) {
+      rect(-95, 0, 310, 6);
+    } else {
+      rect(95, 0, 310, 6);
+    }
+    fill(128, 240, 0);
+    noStroke();
+    rect(0, 0, 30, 14);
+    quad(15, 7, 18, 5, 18, -5, 15, -7);
+    quad(-15, 7, -18, 5, -18, -5, -15, -7);
+    fill(255);
+
+    pushMatrix();
+    translate(250, 0);
+    if (!square) {
+
+      if (port) {
+        pushMatrix();
+        translate(-500, 0);
+        beginShape();
+        curveVertex(0, 0);
+        curveVertex(0, -5);
+
+        //curveVertex(30, -15);
+        curveVertex(-40, -12);
+        //curveVertex(50, -15);
+
+        curveVertex(-80, -5);
+        curveVertex(-81, 20);
+        curveVertex(-80, 35);
+
+
+        curveVertex(-45, 35);
+
+        curveVertex(-35, 35);
+
+
+        curveVertex(-15, 37);
+        curveVertex(-12, 35);
+        curveVertex(0, 10);
+        endShape();
+        rect(0, 0, 8, 10);
+        fill(255, 51, 51);
+        rect(8, 0, 8, 8);
+        stroke(0);
+        strokeWeight(4);
+        line(-81, -4, -81, 35);
+        stroke(240, 40, 40);
+        strokeWeight(8);
+        strokeCap(SQUARE);
+        line(-69, -9, -69, 36);
+        strokeWeight(6);
+        line(-56, -11, -56, 36);
+
+        noStroke();
+        popMatrix();
+      } else {
+
+        beginShape();
+        curveVertex(0, 0);
+        curveVertex(0, -5);
+
+        //curveVertex(30, -15);
+        curveVertex(40, -12);
+        //curveVertex(50, -15);
+
+        curveVertex(80, -5);
+        curveVertex(81, 20);
+        curveVertex(80, 35);
+
+
+        curveVertex(45, 35);
+
+        curveVertex(35, 35);
+
+
+        curveVertex(15, 37);
+        curveVertex(12, 35);
+        curveVertex(0, 10);
+        endShape();
+        rect(0, 0, 8, 10);
+        fill(131, 176, 73);
+        rect(-8, 0, 8, 8);
+        stroke(0);
+        strokeWeight(4);
+        line(81, -4, 81, 35);
+        stroke(240, 40, 40);
+        strokeWeight(8);
+        strokeCap(SQUARE);
+        line(69, -9, 69, 36);
+        strokeWeight(6);
+        line(56, -11, 56, 36);
+        noStroke();
+      }
+    } else {
+      if (!port) {
+        rect(0, 0, 8, 10);
+        stroke(255);
+        strokeWeight(7);
+        noFill();
+        bezier(80, 0, 40, -10, 35, -8, 0, 0); 
+        stroke(0);
+        point(80, 0);
+        noStroke();
+        fill(131, 176, 73);
+        rect(-8, 0, 8, 8);
+      } else {
+        pushMatrix();
+        translate(-500, 0);
+        rect(0, 0, 8, 10);
+        stroke(255);
+        strokeWeight(7);
+        noFill();
+        bezier(-80, 0, -40, -10, -35, -8, 0, 0); 
+        stroke(0);
+        point(-80, 0);
+        noStroke();
+        fill(255, 51, 51);
+        rect(8, 0, 8, 8);
+        popMatrix();
+      }
+    }
+    popMatrix();
+
+    if (port) {
+      pushMatrix();
+
+      translate(70, 0);
+      if (sweep) {
+        fill(0);
+        rect(0, 0, 80, 6);
+        fill(102, 178, 250);
+        rect(0, 0, 40, 9);
+        rect(48, 0, 16, 9);
+        ellipse(58, 0, 9, 9);
+      } else {
+        fill(102, 178, 250);
+
+        rect(0, 0, 16, 9);
+        ellipse(8, 0, 9, 9);
+      }
+      popMatrix();
+    } else {
+      pushMatrix();
+
+      translate(-70, 0);
+      if (sweep) {
+        fill(0);
+        rect(0, 0, 80, 6);
+        fill(102, 178, 250);
+        rect(0, 0, 40, 9);
+        rect(-48, 0, 16, 9);
+        ellipse(-58, 0, 9, 9);
+      } else {
+        fill(102, 178, 250);
+
+        rect(0, 0, 16, 9);
+        ellipse(-8, 0, 9, 9);
+      }
+      popMatrix();
+    }
+
+    //popMatrix();
+
+    popMatrix();
+  }
+
+  void act() {
+    display();
+    if (port) {
+      if (!drive && r < -0.4) {
+        r+=(0.0003*rate);
+      }
+      if (!drive && r < 0.75 && r > -0.4) {
+        r+=(0.0006*rate);
+      }
+      if (!drive && r > 0.75 && r < 0.9) {
+        r+=(0.0005*rate);
+      }
+      if (!drive && r > 0.9) {
+        drive = true;
+      }
+      if (drive && r > -0.6) {
+        r-=(0.0024*rate);
+        if (drive && r < -0.6) {
+          drive = false;
+          square = false;
+        }
+      }
+      if (!drive && r > 0.2) {
+        square = true;
+      }
+    } else {
+      if (!drive && r > 0.4) {
+        r-=(0.0003*rate);
+      }
+      if (!drive && r > -0.75 && r < 0.4) {
+        r-=(0.0006*rate);
+      }
+      if (!drive && r < -0.75 && r > -0.9) {
+        r-=(0.0005*rate);
+      }
+      if (!drive && r < -0.9) {
+        drive = true;
+      }
+      if (drive && r < 0.6) {
+        r+=(0.0024*rate);
+        if (drive && r > 0.6) {
+          drive = false;
+          square = false;
+          println(frameCount);
+        }
+      }
+      if (!drive && r < -0.2) {
+        square = true;
+      }
+    }
+  }
+}
+
+class Boat {
+
+  ArrayList<Oar> oars = new ArrayList<Oar>();
+
+
+  Boat() {
+    if (quad) {
+      oars.add(new Oar(480, 460, false, false));
+      oars.add(new Oar(320, 460, true, false));
+
+      oars.add(new Oar(480, 235, false, false));
+      oars.add(new Oar(320, 235, true, false));
+
+      oars.add(new Oar(320, 570, true, false));
+      oars.add(new Oar(480, 570, false, false));
+
+      oars.add(new Oar(320, 345, true, false));
+      oars.add(new Oar(480, 345, false, false));
+    } else if (four) {
+      oars.add(new Oar(480, 460, false, true));
+      oars.add(new Oar(480, 235, false, true));
+      oars.add(new Oar(320, 570, true, true));
+      oars.add(new Oar(320, 345, true, true));
+    } else if (pair) {
+      oars.add(new Oar(480, 460, false, true));
+      oars.add(new Oar(320, 345, true, true));
+    }
+  }
+
+  void act() {
+    display();
+    for (Oar o : oars) {
+      o.act();
+    }
+  }
+
+  void display() {
+    pushMatrix();
+    translate(0, 50);
+    scale(size-0.1, size-0.1);
+    fill(0);
+    if (num == 4) {
+      rect(0, -80, 90, 580);
+      fill(240, 40, 40); 
+      rect(-50, -80, 10, 580);
+      rect(50, -80, 10, 580);
+      pushMatrix();
+
+      beginShape();
+      curveVertex(0, 210);
+      curveVertex(-55, 210);
+      curveVertex(0, 500);
+      curveVertex(55, 210);
+      curveVertex(0, 210);
+      endShape();
+      popMatrix();
+
+      pushMatrix();
+
+      beginShape();
+      curveVertex(0, -370);
+      curveVertex(-55, -370);
+      curveVertex(0, -660);
+      curveVertex(55, -370);
+      curveVertex(0, -370);
+
+      popMatrix();
+      endShape();
+
+      fill(0);
+      pushMatrix();
+
+      beginShape();
+      curveVertex(0, 210);
+      curveVertex(-45, 210);
+      curveVertex(0, 290);
+      curveVertex(45, 210);
+      curveVertex(0, 210);
+      endShape();
+      popMatrix();
+
+      pushMatrix();
+
+      beginShape();
+      curveVertex(0, -370);
+      curveVertex(-45, -370);
+      curveVertex(0, -450);
+      curveVertex(45, -370);
+      curveVertex(0, -370);
+
+      popMatrix();
+      endShape();
+    } else if(num == 2){
+      rect(0, -80, 90, 390);
+      fill(240, 40, 40); 
+      rect(-50, -80, 10, 580);
+      rect(50, -80, 10, 580);
+      pushMatrix();
+      
+      beginShape();
+      curveVertex(0, 210);
+      curveVertex(-55, 210);
+      curveVertex(0, 500);
+      curveVertex(55, 210);
+      curveVertex(0, 210);
+      endShape();
+      popMatrix();
+
+      pushMatrix();
+
+      beginShape();
+      curveVertex(0, -370);
+      curveVertex(-55, -370);
+      curveVertex(0, -660);
+      curveVertex(55, -370);
+      curveVertex(0, -370);
+
+      popMatrix();
+      endShape();
+
+      fill(0);
+      pushMatrix();
+
+      beginShape();
+      curveVertex(0, 210);
+      curveVertex(-45, 210);
+      curveVertex(0, 290);
+      curveVertex(45, 210);
+      curveVertex(0, 210);
+      endShape();
+      popMatrix();
+
+      pushMatrix();
+
+      beginShape();
+      curveVertex(0, -370);
+      curveVertex(-45, -370);
+      curveVertex(0, -450);
+      curveVertex(45, -370);
+      curveVertex(0, -370);
+
+      popMatrix();
+      endShape();
+    }
+
+    fill(80);
+    pushMatrix();
+    int con = 0;
+    if (quad) {
+
+      if (oars.get(1).r > -0.3) {
+        translate(0, con+map(oars.get(1).r, -0.6, 0.6, 0, 65));
+      } else {
+        translate(0, con+map(-0.3, -0.6, 0.6, 0, 65));
+      }
+    } else if (four) {
+      if (oars.get(2).r > -0.4) {
+        translate(0, con+map(oars.get(2).r, -0.6, 0.6, 0, 65));
+      } else {
+        translate(0, con+map(-0.4, -0.6, 0.6, 0, 65));
+      }
+    }
+    if (num == 4) {
+      rect(0, 70, 50, 35);
+      rect(0, -70, 50, 35);
+      rect(0, -210, 50, 35);
+      rect(0, -350, 50, 35);
+      popMatrix();
+      stroke(192);
+      strokeWeight(4);
+      //line(100, 5, 45, -95);
+      fill(192);
+      noStroke();
+      rect(0, 45, 90, 10);
+      quad(45, 50, 45, 40, 100, 5, 100, 15); 
+      rect(0, -235, 90, 10);
+      quad(45, -230, 45, -240, 100, -275, 100, -265); 
+      rect(0, -95, 90, 10);
+      quad(-45, -90, -45, -100, -100, -135, -100, -125); 
+      rect(0, 185, 90, 10);
+      quad(-45, 190, -45, 180, -100, 145, -100, 155); 
+      if (quad) {
+        quad(-45, 50, -45, 40, -100, 5, -100, 15); 
+        quad(-45, -230, -45, -240, -100, -275, -100, -265); 
+        quad(45, -90, 45, -100, 100, -135, 100, -125); 
+        quad(45, 190, 45, 180, 100, 145, 100, 155);
+      }
+    }
+    //line(45, 105, 100, 50);
+    //line(45, 50, 100, 50);
+    //line(45, -5, 100, 50);
+
+    //line(45, -5, -45, -5);
+
+    //line(-45, -5, -100, -50);
+    //line(-45, -50, -100, -50);
+    //line(-45, -95, -100, -50);
+
+    //line(-45, 0, -100, -65);
+    //line(-45, 150, -100, 150);
+    //line(-45, -130, -100, -65);
+
+    //line(45, -150, 100, -150);
+    noStroke();
+    popMatrix();
+  }
+}</p>
